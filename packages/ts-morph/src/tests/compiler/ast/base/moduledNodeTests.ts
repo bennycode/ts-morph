@@ -235,7 +235,7 @@ describe("ModuledNode", () => {
       expect(sourceFile.getFullText()).to.equal(expectedCode);
     }
 
-    it("should insert the different kinds of exports", () => {
+    it("should insert the different kinds of export declarations", () => {
       doTest(
         "",
         0,
@@ -407,7 +407,7 @@ describe("ModuledNode", () => {
       expect(sourceFile.getFullText()).to.equal(expectedCode);
     }
 
-    it("should insert the different kinds of exports", () => {
+    it("should insert the different kinds of export assignments", () => {
       doTest(
         "",
         0,
@@ -415,11 +415,15 @@ describe("ModuledNode", () => {
           { expression: "5" },
           { isExportEquals: true, expression: writer => writer.write("6") },
           { isExportEquals: false, expression: "name" },
+          { isExportEquals: false, expression: "functionName() {}" },
+          { isExportEquals: false, expression: "function functionName() {}" },
         ],
         [
           `export = 5;`,
           `export = 6;`,
           `export default name;`,
+          `export default functionName() {};`,
+          `export default function functionName() {};`,
         ].join("\n") + "\n",
       );
     });
